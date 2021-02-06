@@ -11,8 +11,8 @@ public class Deposit {
         this.account = account;
     }
 
-    public String toString(){
+    public String toString(double deposit) {
         //your code here
-        return "";
+        return ("Deposit of: $" + deposit + " Date: " + date + " into account: " + account);
     }
 }

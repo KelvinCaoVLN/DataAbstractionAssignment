@@ -1,5 +1,6 @@
 import javax.security.sasl.SaslClient;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Customer {
@@ -16,28 +17,57 @@ public class Customer {
 
     Customer(){
         //create default constructor
-
+       name = "Jeff";
+       accountNumber = 42;
+       checkBalance = 500;
+       savingBalance = 500;
     }
     Customer(String name, int accountNumber, double checkDeposit, double savingDeposit){
         //constructor code here
-
+        this.name = name;
+        this.accountNumber = accountNumber;
+        this.checkBalance = checkDeposit;
+        this.savingBalance = savingDeposit;
     }
 
     public double deposit(double amt, Date date, String account){
         //your code here
-
-        return 0;
+        Deposit newDeposit = new Deposit(1, new Date(2020, Calendar.FEBRUARY, 18, 23, 57, 34), "checking");
+        if (account.equals(CHECKING)){
+            checkBalance = checkBalance + amt;
+            return checkBalance;
+        }
+        else {
+            savingBalance = savingBalance + amt;
+            return savingBalance;
+        }
     }
     public double withdraw(double amt, Date date, String account){
         //your code here
-
-        return 0;
+        Withdraw newWithdraw = new Withdraw(1, new Date(2020, Calendar.FEBRUARY, 18, 23, 57, 34), "checking");
+        if (account.equals(CHECKING)) {
+            checkBalance = checkBalance - amt;
+            if (checkOverdraft(amt, account)) {
+                checkBalance = checkBalance + amt;
+            }
+            return checkBalance;
+        }
+        else {
+            savingBalance = savingBalance - amt;
+            if (checkOverdraft(amt, account)) {
+                savingBalance = savingBalance + amt;
+            }
+            return savingBalance;
+        }
     }
-    private boolean checkOverdraft(double amt, String account){
+    private boolean checkOverdraft(double amt, String account) {
         //your code here
-
-        return false;
+        if (checkBalance < OVERDRAFT) {
+            return true;
+        }
+        return savingBalance < OVERDRAFT;
     }
+
     //do not modify
     public void displayDeposits(){
         for(Deposit d : deposits){
